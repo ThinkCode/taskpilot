@@ -1,4 +1,13 @@
-const API_BASE = '/api';
+// Use current host's IP for API calls (works on any device on the network)
+const API_BASE = (() => {
+  const { protocol, hostname, port } = window.location;
+  // Dev: frontend on 5173, backend on 8000
+  if (port === '5173') {
+    return `${protocol}//${hostname}:8000/api`;
+  }
+  // Production or same-port: use /api directly
+  return '/api';
+})();
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
