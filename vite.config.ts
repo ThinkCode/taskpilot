@@ -14,10 +14,22 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
+    // Performance
+    hmr: { overlay: false },
   },
   resolve: {
     alias: {
       '@': '/src',
     },
+  },
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'react-router-dom',
+      '@tanstack/react-query',
+      'zustand',
+      'lucide-react',
+    ],
   },
 })
