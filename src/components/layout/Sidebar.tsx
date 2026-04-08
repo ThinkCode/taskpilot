@@ -42,42 +42,46 @@ export function Sidebar() {
         {/* Nav */}
         <nav className="flex flex-col gap-1 p-2">
           {navItems.map(({ to, icon: Icon, label }) => (
-            <Tooltip key={to} delayDuration={0}>
-              <TooltipTrigger asChild>
-                <NavLink
-                  to={to}
-                  className={({ isActive }) =>
-                    cn(
-                      'flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors',
-                      isActive
-                        ? 'bg-secondary text-foreground'
-                        : 'text-muted-foreground hover:bg-secondary hover:text-foreground',
-                      !sidebarOpen && 'justify-center px-2'
-                    )
-                  }
-                >
-                  <Icon className="h-4 w-4 shrink-0" />
-                  {sidebarOpen && <span>{label}</span>}
-                </NavLink>
-              </TooltipTrigger>
+            <Tooltip key={to}>
+              <TooltipTrigger
+                render={
+                  <NavLink
+                    to={to}
+                    className={({ isActive }) =>
+                      cn(
+                        'flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors',
+                        isActive
+                          ? 'bg-secondary text-foreground'
+                          : 'text-muted-foreground hover:bg-secondary hover:text-foreground',
+                        !sidebarOpen && 'justify-center px-2'
+                      )
+                    }
+                  >
+                    <Icon className="h-4 w-4 shrink-0" />
+                    {sidebarOpen && <span>{label}</span>}
+                  </NavLink>
+                }
+              />
               {!sidebarOpen && <TooltipContent side="right">{label}</TooltipContent>}
             </Tooltip>
           ))}
 
           {/* AI Button */}
-          <Tooltip delayDuration={0}>
-            <TooltipTrigger asChild>
-              <button
-                onClick={toggleAIPanel}
-                className={cn(
-                  'flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors text-muted-foreground hover:bg-secondary hover:text-foreground',
-                  !sidebarOpen && 'justify-center px-2'
-                )}
-              >
-                <Sparkles className="h-4 w-4 shrink-0" />
-                {sidebarOpen && <span>AI Assistant</span>}
-              </button>
-            </TooltipTrigger>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <button
+                  onClick={toggleAIPanel}
+                  className={cn(
+                    'flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors text-muted-foreground hover:bg-secondary hover:text-foreground',
+                    !sidebarOpen && 'justify-center px-2'
+                  )}
+                >
+                  <Sparkles className="h-4 w-4 shrink-0" />
+                  {sidebarOpen && <span>AI Assistant</span>}
+                </button>
+              }
+            />
             {!sidebarOpen && <TooltipContent side="right">AI Assistant</TooltipContent>}
           </Tooltip>
         </nav>

@@ -58,12 +58,14 @@ export function Projects() {
           <p className="text-muted-foreground">Manage your projects and tasks</p>
         </div>
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="h-4 w-4 mr-2" />
-              New Project
-            </Button>
-          </DialogTrigger>
+          <DialogTrigger
+            render={
+              <Button>
+                <Plus className="h-4 w-4 mr-2" />
+                New Project
+              </Button>
+            }
+          />
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Create Project</DialogTitle>

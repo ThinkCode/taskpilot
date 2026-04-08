@@ -152,12 +152,14 @@ export function TaskSheet({ task, open, onClose }: TaskSheetProps) {
           <div>
             <label className="text-xs text-muted-foreground mb-1 block">Due Date</label>
             <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="outline" className="w-full justify-start text-left font-normal">
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {task.due_date ? format(new Date(task.due_date), 'PPP') : 'Pick a date'}
-                </Button>
-              </PopoverTrigger>
+              <PopoverTrigger
+                render={
+                  <Button variant="outline" className="w-full justify-start text-left font-normal">
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {task.due_date ? format(new Date(task.due_date), 'PPP') : 'Pick a date'}
+                  </Button>
+                }
+              />
               <PopoverContent className="w-auto p-0">
                 <Calendar
                   mode="single"
