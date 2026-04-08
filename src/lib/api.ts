@@ -1,8 +1,8 @@
 // Auto-detect API base URL
 const API_BASE = (() => {
-  // Production: use env var or same-origin /api
+  // Production: API is on same origin under /api
   if (import.meta.env.PROD) {
-    return import.meta.env.VITE_API_URL || '/api';
+    return '/api';
   }
   // Dev: point to local backend
   const { protocol, hostname } = window.location;
