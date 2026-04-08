@@ -1,12 +1,12 @@
-// Use current host's IP for API calls (works on any device on the network)
+// Auto-detect API base URL
 const API_BASE = (() => {
-  const { protocol, hostname, port } = window.location;
-  // Dev: frontend on 5173, backend on 8000
-  if (port === '5173') {
-    return `${protocol}//${hostname}:8000/api`;
+  // Production: use env var or same-origin /api
+  if (import.meta.env.PROD) {
+    return import.meta.env.VITE_API_URL || '/api';
   }
-  // Production or same-port: use /api directly
-  return '/api';
+  // Dev: point to local backend
+  const { protocol, hostname } = window.location;
+  return `${protocol}//${hostname}:8000/api`;
 })();
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
@@ -21,7 +21,6 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   return res.json();
 }
 
-// Projects
 export const api = {
   // Projects
   getProjects: () => request<Project[]>('/projects'),
