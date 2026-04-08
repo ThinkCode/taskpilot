@@ -1,6 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom';
-import { LayoutDashboard, FolderKanban, Settings, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { LayoutDashboard, FolderKanban, Settings, ChevronLeft, ChevronRight, Sparkles, LogOut } from 'lucide-react';
 import { useUIStore } from '@/stores/uiStore';
+import { useAuthStore } from '@/stores/authStore';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -13,6 +14,7 @@ const navItems = [
 
 export function Sidebar() {
   const { sidebarOpen, toggleSidebar, toggleAIPanel } = useUIStore();
+  const logout = useAuthStore((s) => s.logout);
   const location = useLocation();
 
   return (
@@ -86,13 +88,13 @@ export function Sidebar() {
           </Tooltip>
         </nav>
 
-        {/* Collapse button */}
-        <div className="absolute bottom-4 left-0 right-0 px-2">
+        {/* Collapse + Logout */}
+        <div className="absolute bottom-4 left-0 right-0 px-2 flex gap-1">
           <Button
             variant="ghost"
             size="sm"
             onClick={toggleSidebar}
-            className={cn('w-full', !sidebarOpen && 'justify-center')}
+            className={cn('flex-1', !sidebarOpen && 'justify-center')}
           >
             {sidebarOpen ? (
               <>
@@ -103,6 +105,11 @@ export function Sidebar() {
               <ChevronRight className="h-4 w-4" />
             )}
           </Button>
+          {sidebarOpen && (
+            <Button variant="ghost" size="sm" onClick={logout} className="text-muted-foreground hover:text-destructive">
+              <LogOut className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       </aside>
     </TooltipProvider>
