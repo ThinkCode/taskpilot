@@ -2,7 +2,7 @@ import json
 import httpx
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
-from ..config import settings
+from ..config import OLLAMA_BASE_URL, OLLAMA_MODEL
 from ..schemas.ai_schema import ChatMessage
 
 router = APIRouter()
@@ -23,9 +23,9 @@ async def chat(message: ChatMessage):
         try:
             async with httpx.AsyncClient(timeout=120) as client:
                 response = await client.post(
-                    f"{settings.OLLAMA_BASE_URL}/api/chat",
+                    f"{OLLAMA_BASE_URL}/api/chat",
                     json={
-                        "model": settings.OLLAMA_MODEL,
+                        "model": OLLAMA_MODEL,
                         "messages": [
                             {"role": "system", "content": SYSTEM_PROMPT},
                             {"role": "user", "content": message.message},

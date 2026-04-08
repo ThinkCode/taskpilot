@@ -1,20 +1,22 @@
-from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .api import projects, tasks, stats, ai
 from .database import engine, Base
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
+app = FastAPI(title="TaskPilot API", version="0.1.0")
+
+
+@app.on_event("startup")
+async def startup():
     # Create tables on startup
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-    yield
+
+
+@app.on_event("shutdown")
+async def shutdown():
     await engine.dispose()
-
-
-app = FastAPI(title="TaskPilot API", version="0.1.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
